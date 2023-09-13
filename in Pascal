@@ -1,0 +1,283 @@
+{$R+} {Range checking}
+USES SysUtils;
+
+Procedure Logo;
+//The ASCII art for the BuddyS23, is a friendly looking Teddy as drawn below
+
+     Begin
+          WriteLn('  (".___.")');
+          WriteLn('  _ { + } _ ');
+          WriteLn('()__|>o<|__()');
+          WriteLn('   (  .  )');
+          WriteLn(' (_)     (_)');
+
+          WriteLn;
+
+          WriteLn('BuddyS23 is a friendly calculator with a great sense of humor');
+          WriteLn('It analyses 10 numeric values and ');
+          WriteLn('calculates their sum, arithmetic mean and standard deviation.');
+          WriteLn('Input values must be in the range -32768 .. 32767.');
+
+     End;
+
+Function AskForNumber (Question : String): Integer;
+Var a : Integer;
+Begin
+     Write (Question);
+     ReadLn(a);
+     AskForNumber := a;
+End;
+
+Procedure Addition(Numbers: Array of Smallint);
+//Dsiplays values and calculates the sum of their addition
+Var
+   i     : Byte;
+   Total : Integer;
+
+Begin
+     Total := 0;
+     Write('The numeric values: ');
+     For i:= 0 to High(Numbers) do
+     Begin
+     Write(Numbers[i], ' ');
+     Total := Total+Numbers[i];
+     End;
+
+     WriteLn(' sums up to:', Total);
+End;
+
+Procedure Analysis(Numbers : Array of SmallInt);
+Var
+   Max: integer;
+   Min: integer;
+   ZeroCount: integer;
+   Neg: integer;
+   Pos: integer;
+   x: integer;
+Begin
+    Max:=Numbers[0];
+    Min:=Numbers[0];
+    ZeroCount:=0;
+    Neg:=0;
+    Pos:=0;
+
+    for x := 0 to High(Numbers) do
+    begin
+         if Numbers[x] > Max then
+           Max := Numbers[x];
+
+
+         if Numbers[x] < Min then
+           Min := numbers[x];
+
+         if Numbers[x] = 0 then
+           ZeroCount:= ZeroCount + 1;
+
+         if Numbers[x] < 0 then
+           Neg := Neg + 1;
+
+         if Numbers[x] > 0 then
+           Inc(Pos);
+
+    end;
+
+
+     Writeln('The Greatest number is: ' , Max);
+     Writeln('The Smallest number is: ' , Min);
+     Writeln('The Zero Values are: ' , ZeroCount);
+     Writeln('The negavtive elements are: ' , Neg);
+     Writeln('The Positive elements are: ' , Pos);
+End;
+
+Procedure Mean(Numbers : Array of SmallInt);
+Var
+   Mean:real;
+   i:byte;
+   x:integer;
+   Total:integer;
+   N:integer;
+
+Begin
+   Total := 0;
+   N:=high(Numbers);
+
+      Write('The numeric values: ');
+
+      For i:= 0 to High(Numbers) do
+      Begin
+           Write(Numbers[i], ' ');
+           Total := Total+Numbers[i];
+
+      end;
+
+     For x := 0 to High(Numbers) do
+
+         Mean:=Total/N;
+
+
+     Writeln('has the Mean: ' , Mean:8:2);
+End;
+Procedure StandardDeviation(Numbers : Array of SmallInt);
+Var
+   SD:real;
+   Mean:real;
+   x:integer;
+   Total:real;
+   N:integer;
+   i:integer;
+
+Begin
+   Total := 0;
+   N:=high(Numbers);
+
+   Write('The numeric values: ');
+   For i:= 0 to High(Numbers) do
+      Begin
+           Write(Numbers[i], ' ');
+           Total := Total+Numbers[i];
+
+      end;
+
+     For x := 0 to High(Numbers) do
+
+         Mean:=Total/N;
+
+     Total:=0;
+
+      For x:= 0 to High(Numbers) do
+      Begin
+           Total := sqr(Numbers[x]- Mean)+Total;
+           SD:=Total/N;
+
+      end;
+
+     Writeln('has the Standard deviation: ' , sqrt(SD):8:4);
+End;
+var
+   TenNumbers     :Array [1..10] of Smallint;
+   NumberIndex    :Byte;
+   name           :string;
+   age            :integer;
+   Scale          :integer;
+   number1, number2:integer;
+Begin
+
+//The main block of codes, begins with the offical BuddyS23 ASCII art and logo
+//information.
+
+     WriteLn;
+     WriteLn;
+
+     Logo;
+
+     WriteLn;
+     WriteLn;
+
+     WriteLn('Hello, ', 'my name is BuddyS23, your friendly calculator. What''s yours name?');
+     Write('My name is: ');
+     ReadLn(name);
+     WriteLn;
+
+     writeLn('Nice to meet you ' , name ,'.' );
+     WriteLn('How old are you ' , name ,'?');
+     Write('I am: ');
+     ReadLn(age);
+     WriteLn;
+
+  If age>35 then
+     begin
+       WriteLn('You are getting pretty old ' , name , ', I hope you can make the best of life now.');
+     end
+
+  else if age<35 then
+       begin
+            WriteLn('You are still in your prime ' , name , ', you have your whole life ahead of you.');
+       end
+
+  else if age=35 then
+       begin
+           WriteLn('Make the difference now, you''ll get old soon');
+       end;
+
+          WriteLn;
+
+          WriteLn('So how are you feeling today ' , name , ', on a scale of 1-10, what would you pick?: ');
+          Write('I would say: ');
+          ReadLn(Scale);
+
+          WriteLn;
+
+
+  If Scale>5 then
+        begin
+             WriteLn('Sounds great! I am happy to know that you are happy.');
+        end
+
+  else if Scale<5 then
+        begin
+             WriteLn('That does not sound good. I hope your mood is improved');
+        end
+
+  else if scale=5 then
+        begin
+             WriteLn('That''s fair enough, but I wish you''d feel happier.');
+             WriteLn;
+        end;
+
+       WriteLn;
+       WriteLn('I am built to help you with Mathematical and Statistical problems');
+       Writeln('Would you like to solve some?');
+       WriteLn;
+       WriteLn('We can solve for the underlisted topics with ten digits. All you need to do, is input your values');
+
+       WriteLn('1 - Addition');
+       WriteLn('2 - Array Analysis');
+       WriteLn('3 - Mean');
+       WriteLn('4 - Standard Deviation');
+
+       WriteLn;
+
+      For NumberIndex:= 1 to 10 do begin
+           TenNumbers[NumberIndex] := AskForNumber('Please input value '+
+           IntToStr(NumberIndex)+': ');
+
+      end;
+
+      WriteLn;
+      WriteLn;
+      Addition(TenNumbers);
+      Analysis(TenNumbers);
+      Mean(TenNumbers);
+      StandardDeviation(TenNumbers);
+
+      //And now to some simpler calculations with just two input values
+
+      WriteLn;
+      WriteLn;
+      WriteLn('I can also complete some other simpler arithmetic problems like: ');
+      WriteLn('1 - Multiplication');
+      WriteLn('2 - Subtraction and');
+      WriteLn('3 - Division');
+      WriteLn;
+      WriteLn('As usual, all you have to do, is input values');
+
+      Write('Please type in value 1 is: ');
+      ReadLn(number1);
+      Write('Please type in value 2 is: ');
+      ReadLn(number2);
+      WriteLn;
+
+      WriteLn('The product of ', number1, ' and ', number2, ' is: ', number2*number1);
+      WriteLn('The diference between ', number1, ' and ', number2, ' is: ', number2-number1);
+      WriteLn('The quotient of ', number1, ' and ', number2, ' is: ', number1/number2 :8:2);
+
+      WriteLn;
+      WriteLn;
+
+      WriteLn('I would like to do more, but for now, that is all I am programmed to do');
+      WriteLn('Thank you for using BuddyS23, do have a great day!');
+
+      WriteLn;
+      WriteLn;
+      WriteLn;
+                                        
